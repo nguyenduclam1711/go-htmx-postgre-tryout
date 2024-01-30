@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-cd ../web_server
+cd ..
 echo "Running web server"
 air
