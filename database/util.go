@@ -47,6 +47,10 @@ func mapTypeToPostgres(goType string) string {
 		return "text"
 	case "time.Time":
 		return "timestamp"
+	case "float32":
+		return "real"
+	case "float64":
+		return "double precision"
 	default:
 		log.Fatalf("Don't know this type: %s", goType)
 		return ""
