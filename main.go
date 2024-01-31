@@ -19,8 +19,7 @@ func main() {
 	// generates db tables
 	database.CreateTables()
 
-	db := database.Db
-	defer db.Close()
+	defer database.Db.Close()
 
 	app := fiber.New()
 
