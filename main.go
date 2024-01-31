@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
@@ -11,26 +10,24 @@ import (
 )
 
 func main() {
-	dbCtx := context.Background()
-
 	// load env
 	env.LoadEnv()
 
 	// connect to db
-	database.ConnectDB(dbCtx)
+	database.ConnectDB()
 
 	// generates db tables
-	database.GenerateTables()
+	database.CreateTables()
 
 	db := database.Db
-	defer db.Close(dbCtx)
+	defer db.Close()
 
 	app := fiber.New()
 
 	// use compress middleware
 	app.Use(compress.New())
 
-	app.Static("/", "../public")
+	app.Static("/", "public")
 
 	log.Fatal(app.Listen(":3000"))
 }
