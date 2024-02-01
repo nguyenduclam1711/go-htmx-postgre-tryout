@@ -1,45 +1,45 @@
-package database
+package models
 
 import (
 	"log"
 	"strings"
 )
 
-type fieldConfig struct {
-	notNull    bool
-	isDefault  bool
-	unique     bool
-	primaryKey bool
-	defaultVal string
-	serial     bool
+type FieldConfig struct {
+	NotNull    bool
+	IsDefault  bool
+	Unique     bool
+	PrimaryKey bool
+	DefaultVal string
+	Serial     bool
 }
 
-func parseFieldConfig(config string) fieldConfig {
-	res := fieldConfig{}
+func ParseFieldConfig(config string) FieldConfig {
+	res := FieldConfig{}
 	parts := strings.Split(config, ",")
 	for _, part := range parts {
 		trimedPart := strings.TrimSpace(part)
 		switch {
 		case trimedPart == "serial":
-			res.serial = true
+			res.Serial = true
 		case trimedPart == "unique":
-			res.unique = true
+			res.Unique = true
 		case strings.HasPrefix(trimedPart, "default"):
-			res.isDefault = true
+			res.IsDefault = true
 			defaultVal, found := strings.CutPrefix(trimedPart, "default_")
 			if found {
-				res.defaultVal = defaultVal
+				res.DefaultVal = defaultVal
 			}
 		case trimedPart == "primarykey":
-			res.primaryKey = true
+			res.PrimaryKey = true
 		case trimedPart == "notnull":
-			res.notNull = true
+			res.NotNull = true
 		}
 	}
 	return res
 }
 
-func mapTypeToPostgres(goType string) string {
+func MapTypeToPostgres(goType string) string {
 	switch goType {
 	case "int", "int32", "int64":
 		return "int"

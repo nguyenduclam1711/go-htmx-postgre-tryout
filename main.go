@@ -7,6 +7,8 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/nguyenduclam1711/go-htmx-postgre-tryout/database"
 	"github.com/nguyenduclam1711/go-htmx-postgre-tryout/env"
+	"github.com/nguyenduclam1711/go-htmx-postgre-tryout/models"
+	"github.com/nguyenduclam1711/go-htmx-postgre-tryout/repositories"
 )
 
 func main() {
@@ -20,6 +22,14 @@ func main() {
 	database.CreateTables()
 
 	defer database.Db.Close()
+
+	// generates all repositories
+	repositories.GenerateMapRepositories()
+
+	repositories.MapRepositories.User.Create(models.User{
+		Username: "hahah",
+		FullName: "heheh",
+	})
 
 	app := fiber.New()
 
